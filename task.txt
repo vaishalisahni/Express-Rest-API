@@ -1,0 +1,21 @@
+REST API - JSON
+
+****Hybrid - browser && react app/frontend mobileapp /alexa-interact***
+ 
+1. GET/users- html document render - server side rendering 
+2. GET/api/users - list all users-json -- done
+
+*** Dynamic path parameters**
+GET/api/users/:id 
+:id->variable | dynamic 
+
+3. GET/api/users/1- get the user with id 1 -- done
+GET/api/users/2- get the user with id 2 -- done
+
+4. POST/api/ users - Create new user
+
+5. PATCH/api/users/1- edit the user with id 1
+
+6. DELETE/api/users/1 - Delete the User with id 1
+
+we want data but we dont have any database connected like mongodb --- we will be hardcoding the data ---we can use the website --mockaroo.com -- generates fake data for testing purposes
