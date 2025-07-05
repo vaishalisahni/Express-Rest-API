@@ -8,6 +8,24 @@ const app = express();
 // middleware - plugins
 app.use(express.urlencoded({ extended: false })); // to parse form data
 
+// Custom Middleware - middleware to maintain logs
+app.use((req, res, next) => {
+    fs.appendFile('./logs.txt', `\n${new Date().toISOString()}: ${req.ip} ${req.method} ${req.path} `, (err,data) => {
+        next(); // call next middleware
+    });
+});
+
+app.use((req, res, next) => {
+    const myUsername="Vaishali Sahni";
+    console.log("hello from middleware 3");
+    next();
+});
+
+app.use((req, res, next) => {
+    console.log("i m in get route"+req.myUsername);
+    next();
+});
+
 // ----------------Routes
 // Server side rendering - HTML document render
 app.get('/users', (req, res) => {
