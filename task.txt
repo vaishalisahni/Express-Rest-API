@@ -27,5 +27,5 @@ we want data but we dont have any database connected like mongodb --- we will be
 
 #Http headers - reading headers and creating custom headers 
 
-#Status codes use - 200,201,...
+#Status codes use - 5 types - informational , successful, redirectional , client error , server error 
 
