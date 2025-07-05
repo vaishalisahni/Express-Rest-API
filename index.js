@@ -42,6 +42,9 @@ app.get('/users', (req, res) => {
 // Rest API
 // API endpoint to list all users in JSON format - for frontend/mobile app, alexa
 app.get('/api/users', (req, res) => {
+    // -----> Http Headers <-----
+    console.log(req.headers); // reading headers from the request
+    res.setHeader("X-myName", "Vaishali Sahni"); //custom header ---> Always add X to custom headers
     return res.json(users);
 });
 
