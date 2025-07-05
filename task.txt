@@ -19,3 +19,13 @@ GET/api/users/2- get the user with id 2 -- done
 6. DELETE/api/users/1 - Delete the User with id 1
 
 we want data but we dont have any database connected like mongodb --- we will be hardcoding the data ---we can use the website --mockaroo.com -- generates fake data for testing purposes
+
+
+#Use of Postman for post , patch , delete requests ...
+
+#Express Middlewares - app.use((req,res,next)=>{}) ---> chain of middlewares, logging request 
+
+#Http headers - reading headers and creating custom headers 
+
+#Status codes use - 200,201,...
+

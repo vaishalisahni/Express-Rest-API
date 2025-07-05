@@ -7,22 +7,23 @@ const app = express();
 
 // middleware - plugins
 app.use(express.urlencoded({ extended: false })); // to parse form data
+app.use(express.json()); // to parse JSON data
 
 // Custom Middleware - middleware to maintain logs
 app.use((req, res, next) => {
-    fs.appendFile('./logs.txt', `\n${new Date().toISOString()}: ${req.ip} ${req.method} ${req.path} `, (err,data) => {
+    fs.appendFile('./logs.txt', `\n${new Date().toISOString()}: ${req.ip} ${req.method} ${req.path} `, (err, data) => {
         next(); // call next middleware
     });
 });
 
 app.use((req, res, next) => {
-    const myUsername="Vaishali Sahni";
+    const myUsername = "Vaishali Sahni";
     console.log("hello from middleware 3");
     next();
 });
 
 app.use((req, res, next) => {
-    console.log("i m in get route"+req.myUsername);
+    console.log("i m in get route" + req.myUsername);
     next();
 });
 
@@ -60,9 +61,13 @@ app.post('/api/users', (req, res) => {
     const body = req.body;
     // console.log(body); // to see the data sent from the frontend
 
+    if (!body || !body.first_name || !body.last_name || !body.email || !body.gender || !body.job_title) {
+        return res.status(400).json({ status: 'failed', message: 'Please provide all required fields' }); // status 400 - Bad Request
+    }
+
     users.push({ id: users.length + 1, ...body });
     fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (err, data) => {
-        return res.json({ status: 'success', id: users.length });
+        return res.status(201).json({ status: 'successfully created', id: users.length }); // status 201- Created
     });
 
 });
@@ -85,13 +90,17 @@ app.route('/api/users/:id')
     .get((req, res) => {
         const id = Number(req.params.id);
         const user = users.find(user => user.id === id);
+        if(!user)
+        {
+            return res.status(404).json({ status: 'failed', message: 'User not found' }); // status 404 - Not Found
+        }
         return res.json(user);
     })
     .patch((req, res) => {
         const id = Number(req.params.id);
-        
+
         const userIndex = users.findIndex(user => user.id === id);
-       
+
         const updatedUser = { ...users[userIndex], ...req.body };
         users[userIndex] = updatedUser;
         // console.log(users[userIndex]);
@@ -104,7 +113,7 @@ app.route('/api/users/:id')
         const userIndex = users.findIndex(user => user.id === id);
 
         users.splice(userIndex, 1);
-        fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (err, data)=>{
+        fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (err, data) => {
             return res.json({ status: 'success', id: users.length });
         });
     });
